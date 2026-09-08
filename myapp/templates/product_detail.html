@@ -1,0 +1,299 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<section class="py-5">
+  <div class="container">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-5">
+      <ol class="breadcrumb mb-0" style="font-size:0.72rem;letter-spacing:0.08em;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-dark text-decoration-none text-uppercase">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'category' product.category.slug %}" class="text-dark text-decoration-none text-uppercase">{{ product.category.name }}</a></li>
+        <li class="breadcrumb-item active text-uppercase text-muted">{{ product.name }}</li>
+      </ol>
+    </nav>
+
+    <div class="row g-5 align-items-start">
+
+      <!-- ── Product Image Gallery ── -->
+      <div class="col-md-6">
+        <div class="position-sticky" style="top:90px;">
+
+          <!-- Main large image — clicking thumbnails below swaps this -->
+          <div class="overflow-hidden bg-light mb-3" style="aspect-ratio:3/4;">
+            {% if product.image %}
+            <img id="main-product-img"
+              src="{{ product.image.url }}"
+              alt="{{ product.name }}"
+              class="w-100 h-100" style="object-fit:cover;transition:opacity .2s ease;">
+            {% else %}
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor" class="opacity-15">
+                <use xlink:href="#shopping-bag"></use>
+              </svg>
+            </div>
+            {% endif %}
+          </div>
+
+          <!-- Thumbnail strip — shown only when extra images exist -->
+          {% if product.image or gallery_images %}
+          <div class="d-flex gap-2 flex-wrap">
+
+            <!-- Thumbnail for the main product image -->
+            {% if product.image %}
+            <div class="thumb-item overflow-hidden bg-light"
+              style="width:72px;height:88px;cursor:pointer;border:2px solid #111;flex-shrink:0;"
+              onclick="switchImage(this, '{{ product.image.url }}')">
+              <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            {% endif %}
+
+            <!-- Thumbnails for every extra gallery image -->
+            {% for img in gallery_images %}
+            <div class="thumb-item overflow-hidden bg-light"
+              style="width:72px;height:88px;cursor:pointer;border:2px solid transparent;flex-shrink:0;"
+              onclick="switchImage(this, '{{ img.image.url }}')">
+              <img src="{{ img.image.url }}" alt="{{ img.caption|default:product.name }}"
+                style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            {% endfor %}
+
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+
+      <!-- ── Product Info ── -->
+      <div class="col-md-6">
+
+        <!-- Category & name -->
+        <a href="{% url 'category' product.category.slug %}"
+           class="text-decoration-none text-uppercase d-inline-block mb-2"
+           style="font-size:0.7rem;letter-spacing:0.15em;color:#888;">{{ product.category.name }}</a>
+
+        <h1 class="text-uppercase mb-3"
+            style="font-family:'Marcellus',serif;font-size:2.4rem;line-height:1.15;letter-spacing:0.02em;">
+          {{ product.name }}
+        </h1>
+
+        <!-- Price -->
+        <div class="mb-4 d-flex align-items-baseline gap-3">
+          <span style="font-size:1.7rem;font-weight:600;color:#111;">₹{{ product.price }}</span>
+          {% if product.stock > 0 %}
+          <span class="text-success" style="font-size:0.8rem;letter-spacing:0.06em;">
+            &#10003; In Stock
+            <span class="text-muted ms-1">({{ product.stock }} left)</span>
+          </span>
+          {% else %}
+          <span class="text-danger" style="font-size:0.8rem;letter-spacing:0.06em;">Out of Stock</span>
+          {% endif %}
+        </div>
+
+        <!-- Description -->
+        {% if product.description %}
+        <p class="text-muted mb-4" style="font-size:0.9rem;line-height:1.8;">{{ product.description }}</p>
+        {% endif %}
+
+        <hr class="my-4">
+
+        <!-- Add to Cart form -->
+        <form method="post" action="{% url 'cart_add' product.id %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="product_detail">
+
+          <!-- Quantity selector -->
+          {% if product.stock > 0 %}
+          <div class="mb-4">
+            <label class="form-label text-uppercase mb-2" style="font-size:0.7rem;letter-spacing:0.12em;font-weight:600;">Quantity</label>
+            <div class="d-flex align-items-center border" style="width:fit-content;">
+              <button type="button" id="qty-minus"
+                class="btn border-0 px-3 py-2 bg-white"
+                style="font-size:1.1rem;line-height:1;">−</button>
+              <input type="number" name="quantity" id="qty-input"
+                value="1" min="1" max="{{ product.stock }}"
+                class="form-control border-0 text-center rounded-0 p-0"
+                style="width:48px;height:42px;font-size:0.9rem;box-shadow:none;">
+              <button type="button" id="qty-plus"
+                class="btn border-0 px-3 py-2 bg-white"
+                style="font-size:1.1rem;line-height:1;">+</button>
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- Action buttons -->
+          <div class="d-flex gap-3 flex-wrap">
+            <button type="submit"
+              class="btn btn-dark btn-lg rounded-0 text-uppercase flex-grow-1 py-3"
+              style="font-size:0.78rem;letter-spacing:0.14em;min-width:200px;"
+              {% if product.stock == 0 %}disabled{% endif %}>
+              {% if product.stock == 0 %}Out of Stock{% else %}Add to Cart{% endif %}
+            </button>
+
+            <!-- Wishlist toggle -->
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'wishlist_toggle' product.id %}" class="d-flex">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="product_detail">
+              <button type="submit"
+                class="btn btn-lg rounded-0 py-3 px-4 {% if in_wishlist %}btn-dark{% else %}btn-outline-dark{% endif %}"
+                title="{% if in_wishlist %}Remove from wishlist{% else %}Add to wishlist{% endif %}">
+                <svg width="20" height="20" viewBox="0 0 24 24"
+                  fill="{% if in_wishlist %}white{% else %}currentColor{% endif %}">
+                  <use xlink:href="#heart"></use>
+                </svg>
+              </button>
+            </form>
+            {% else %}
+            <a href="{% url 'login' %}?next={{ request.path }}"
+               class="btn btn-outline-dark btn-lg rounded-0 py-3 px-4" title="Login to wishlist">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <use xlink:href="#heart"></use>
+              </svg>
+            </a>
+            {% endif %}
+          </div>
+        </form>
+
+        <!-- Details tab strip -->
+        <div class="mt-5">
+          <ul class="nav border-bottom gap-4 mb-0" id="productTabs">
+            <li class="nav-item">
+              <button class="nav-link active px-0 pb-3 text-uppercase border-0 bg-transparent text-dark"
+                style="font-size:0.72rem;letter-spacing:0.1em;font-weight:600;border-bottom:2px solid #111!important;"
+                data-tab="desc">Description</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link px-0 pb-3 text-uppercase border-0 bg-transparent text-muted"
+                style="font-size:0.72rem;letter-spacing:0.1em;"
+                data-tab="details">Details</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link px-0 pb-3 text-uppercase border-0 bg-transparent text-muted"
+                style="font-size:0.72rem;letter-spacing:0.1em;"
+                data-tab="shipping">Shipping</button>
+            </li>
+          </ul>
+
+          <div class="pt-4" style="font-size:0.88rem;line-height:1.8;color:#444;">
+            <div id="tab-desc">
+              {% if product.description %}
+              <p>{{ product.description }}</p>
+              {% else %}
+              <p class="text-muted">No description available.</p>
+              {% endif %}
+            </div>
+            <div id="tab-details" style="display:none;">
+              <ul class="list-unstyled mb-0">
+                <li class="mb-2"><span class="text-uppercase fw-semibold" style="font-size:0.7rem;letter-spacing:0.1em;min-width:110px;display:inline-block;">Category</span>{{ product.category.name }}</li>
+                <li class="mb-2"><span class="text-uppercase fw-semibold" style="font-size:0.7rem;letter-spacing:0.1em;min-width:110px;display:inline-block;">Stock</span>{{ product.stock }} units</li>
+                <li class="mb-2"><span class="text-uppercase fw-semibold" style="font-size:0.7rem;letter-spacing:0.1em;min-width:110px;display:inline-block;">SKU</span>KRA-{{ product.id|stringformat:"04d" }}</li>
+                <li class="mb-2"><span class="text-uppercase fw-semibold" style="font-size:0.7rem;letter-spacing:0.1em;min-width:110px;display:inline-block;">Added</span>{{ product.created_at|date:"F j, Y" }}</li>
+              </ul>
+            </div>
+            <div id="tab-shipping" style="display:none;">
+              <p>Free standard shipping on all orders over ₹999. Express shipping available at checkout.</p>
+              <ul class="list-unstyled mb-0">
+                <li class="mb-2">&#10003; Standard delivery: 3–5 business days</li>
+                <li class="mb-2">&#10003; Express delivery: 1–2 business days</li>
+                <li class="mb-2">&#10003; Free returns within 30 days</li>
+                <li>&#10003; Worldwide shipping available</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    {% if related %}
+    <div class="mt-5 pt-5 border-top">
+      <h4 class="text-uppercase mb-4" style="font-family:'Marcellus',serif;font-size:1.4rem;">You May Also Like</h4>
+      <div class="row row-cols-2 row-cols-md-4 g-4">
+        {% for item in related %}
+        <div class="col">
+          <div class="position-relative">
+            <a href="{% url 'product_detail' item.slug %}" class="d-block overflow-hidden bg-light" style="height:280px;">
+              {% if item.image %}
+              <img src="{{ item.image.url }}" alt="{{ item.name }}"
+                class="w-100 h-100" style="object-fit:cover;transition:transform .4s ease;">
+              {% else %}
+              <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" class="opacity-25">
+                  <use xlink:href="#shopping-bag"></use>
+                </svg>
+              </div>
+              {% endif %}
+            </a>
+            <div class="pt-3">
+              <p class="text-muted text-uppercase mb-1" style="font-size:0.68rem;">{{ item.category.name }}</p>
+              <h6 class="text-uppercase mb-1" style="font-size:0.8rem;">
+                <a href="{% url 'product_detail' item.slug %}" class="text-dark text-decoration-none">{{ item.name }}</a>
+              </h6>
+              <span class="fw-semibold">₹{{ item.price }}</span>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<script>
+  // Swap main product image when a thumbnail is clicked
+  function switchImage(thumbEl, url) {
+    var main = document.getElementById('main-product-img');
+    if (!main) return;
+    main.style.opacity = '0';
+    setTimeout(function () {
+      main.src = url;
+      main.style.opacity = '1';
+    }, 150);
+    // Update border: remove from all thumbnails, add to clicked one
+    document.querySelectorAll('.thumb-item').forEach(function (el) {
+      el.style.border = '2px solid transparent';
+    });
+    thumbEl.style.border = '2px solid #111';
+  }
+
+  // Quantity stepper
+  var qtyInput = document.getElementById('qty-input');
+  if (qtyInput) {
+    document.getElementById('qty-minus').addEventListener('click', function () {
+      var v = parseInt(qtyInput.value) || 1;
+      if (v > 1) qtyInput.value = v - 1;
+    });
+    document.getElementById('qty-plus').addEventListener('click', function () {
+      var v = parseInt(qtyInput.value) || 1;
+      var max = parseInt(qtyInput.max) || 999;
+      if (v < max) qtyInput.value = v + 1;
+    });
+  }
+
+  // Product info tabs
+  document.querySelectorAll('#productTabs .nav-link').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('#productTabs .nav-link').forEach(function (b) {
+        b.classList.remove('active', 'text-dark');
+        b.classList.add('text-muted');
+        b.style.borderBottom = '';
+      });
+      btn.classList.add('active', 'text-dark');
+      btn.classList.remove('text-muted');
+      btn.style.borderBottom = '2px solid #111';
+
+      ['desc', 'details', 'shipping'].forEach(function (t) {
+        document.getElementById('tab-' + t).style.display = 'none';
+      });
+      document.getElementById('tab-' + btn.dataset.tab).style.display = 'block';
+    });
+  });
+</script>
+
+{% endblock content %}

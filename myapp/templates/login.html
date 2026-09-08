@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<section class="py-5 bg-light" style="min-height: 70vh;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+
+        <div class="card border-0 shadow-sm mt-5">
+          <div class="card-body p-5">
+            <h2 class="text-center text-uppercase mb-1" style="font-family: 'Marcellus', serif;">Welcome Back</h2>
+            <p class="text-center text-muted mb-4 fs-6">Sign in to your Kaira account</p>
+
+            <form method="post" action="{% url 'login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">
+              {% csrf_token %}
+
+              <div class="mb-3">
+                <label for="username" class="form-label text-uppercase fs-6 fw-semibold">Username</label>
+                <input type="text" class="form-control form-control-lg border-0 border-bottom rounded-0 px-0"
+                  id="username" name="username" placeholder="Enter your username" required
+                  value="{{ request.POST.username }}">
+              </div>
+
+              <div class="mb-4">
+                <label for="password" class="form-label text-uppercase fs-6 fw-semibold">Password</label>
+                <input type="password" class="form-control form-control-lg border-0 border-bottom rounded-0 px-0"
+                  id="password" name="password" placeholder="Enter your password" required>
+              </div>
+
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-dark btn-lg text-uppercase rounded-0 py-3">Sign In</button>
+              </div>
+
+              <p class="text-center mt-3 fs-6">
+                Don't have an account?
+                <a href="{% url 'signup' %}" class="text-dark fw-semibold text-decoration-underline">Sign Up</a>
+              </p>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

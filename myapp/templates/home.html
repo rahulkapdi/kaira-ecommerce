@@ -1,0 +1,633 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+ <section id="billboard" class="bg-light py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <h1 class="section-title text-center mt-4" data-aos="fade-up">New Collections</h1>
+        <div class="col-md-6 text-center" data-aos="fade-up" data-aos-delay="300">
+          <p>Discover our latest arrivals — thoughtfully designed pieces that blend timeless elegance with modern style.
+            From effortless everyday wear to statement looks, each collection is crafted to move with you.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="swiper main-swiper py-4" data-aos="fade-up" data-aos-delay="600">
+          <div class="swiper-wrapper d-flex border-animation-left">
+            
+            <div class="swiper-slide">
+              <div class="banner-item image-zoom-effect">
+                <div class="image-holder">
+                  <a href="{% url 'shop' %}">
+                    <img src="{% static 'images/banner-image-6.jpg' %}" alt="product" class="img-fluid">
+                  </a>
+                </div>
+                <div class="banner-content py-4">
+                  <h5 class="element-title text-uppercase">
+                    <a href="{% url 'shop' %}" class="item-anchor">Premium Leather Jackets</a>
+                  </h5>
+                  <p>Bold silhouettes, buttery-soft leather. A jacket that defines every outfit.</p>
+                  <div class="btn-left">
+                    <a href="{% url 'shop' %}" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Shop Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="banner-item image-zoom-effect">
+                <div class="image-holder">
+                  <a href="{% url 'shop' %}">
+                    <img src="{% static 'images/banner-image-1.jpg' %}" alt="product" class="img-fluid">
+                  </a>
+                </div>
+                <div class="banner-content py-4">
+                  <h5 class="element-title text-uppercase">
+                    <a href="{% url 'shop' %}" class="item-anchor">Minimal Summer Dresses</a>
+                  </h5>
+                  <p>Light fabrics, clean lines — effortless style for warm days ahead.</p>
+                  <div class="btn-left">
+                    <a href="{% url 'shop' %}" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Explore Collection</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="banner-item image-zoom-effect">
+                <div class="image-holder">
+                  <a href="{% url 'shop' %}">
+                    <img src="{% static 'images/banner-image-2.jpg' %}" alt="product" class="img-fluid">
+                  </a>
+                </div>
+                <div class="banner-content py-4">
+                  <h5 class="element-title text-uppercase">
+                    <a href="{% url 'shop' %}" class="item-anchor">Tailored Trench Coats</a>
+                  </h5>
+                  <p>Classic outerwear reimagined — structured, sophisticated, and season-proof.</p>
+                  <div class="btn-left">
+                    <a href="{% url 'shop' %}" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="banner-item image-zoom-effect">
+                <div class="image-holder">
+                  <a href="{% url 'shop' %}">
+                    <img src="{% static 'images/banner-image-3.jpg' %}" alt="product" class="img-fluid">
+                  </a>
+                </div>
+                <div class="banner-content py-4">
+                  <h5 class="element-title text-uppercase">
+                    <a href="{% url 'shop' %}" class="item-anchor">Everyday Essentials</a>
+                  </h5>
+                  <p>Wardrobe staples built to last — versatile pieces for every occasion.</p>
+                  <div class="btn-left">
+                    <a href="{% url 'shop' %}" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">View All</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="banner-item image-zoom-effect">
+                <div class="image-holder">
+                  <a href="{% url 'shop' %}">
+                    <img src="{% static 'images/banner-image-4.jpg' %}" alt="product" class="img-fluid">
+                  </a>
+                </div>
+                <div class="banner-content py-4">
+                  <h5 class="element-title text-uppercase">
+                    <a href="{% url 'shop' %}" class="item-anchor">Cozy Knit Sweaters</a>
+                  </h5>
+                  <p>Wrap yourself in warmth — our knitwear collection is made for cool-season comfort.</p>
+                  <div class="btn-left">
+                    <a href="{% url 'shop' %}" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Shop Knitwear</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="banner-item image-zoom-effect">
+                <div class="image-holder">
+                  <a href="{% url 'shop' %}">
+                    <img src="{% static 'images/banner-image-5.jpg' %}" alt="product" class="img-fluid">
+                  </a>
+                </div>
+                <div class="banner-content py-4">
+                  <h5 class="element-title text-uppercase">
+                    <a href="{% url 'shop' %}" class="item-anchor">Signature Accessories</a>
+                  </h5>
+                  <p>The finishing touch that elevates every look — bags, belts, and beyond.</p>
+                  <div class="btn-left">
+                    <a href="{% url 'shop' %}" class="btn-link fs-6 text-uppercase item-anchor text-decoration-none">Discover Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+        <div class="icon-arrow icon-arrow-left"><svg width="50" height="50" viewBox="0 0 24 24">
+            <use xlink:href="#arrow-left"></use>
+          </svg></div>
+        <div class="icon-arrow icon-arrow-right"><svg width="50" height="50" viewBox="0 0 24 24">
+            <use xlink:href="#arrow-right"></use>
+          </svg></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="0">
+          <div class="py-5">
+            <svg width="38" height="38" viewBox="0 0 24 24">
+              <use xlink:href="#calendar"></use>
+            </svg>
+            <h4 class="element-title text-capitalize my-3">Free Shipping Over ₹999</h4>
+            <p>Enjoy free standard delivery on all orders above ₹999 — across India.</p>
+          </div>
+        </div>
+        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="300">
+          <div class="py-5">
+            <svg width="38" height="38" viewBox="0 0 24 24">
+              <use xlink:href="#shopping-bag"></use>
+            </svg>
+            <h4 class="element-title text-capitalize my-3">Secure Checkout</h4>
+            <p>Your payments are protected by industry-standard SSL encryption.</p>
+          </div>
+        </div>
+        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="600">
+          <div class="py-5">
+            <svg width="38" height="38" viewBox="0 0 24 24">
+              <use xlink:href="#gift"></use>
+            </svg>
+            <h4 class="element-title text-capitalize my-3">Premium Packaging</h4>
+            <p>Every order arrives in beautifully crafted packaging — perfect for gifting.</p>
+          </div>
+        </div>
+        <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="900">
+          <div class="py-5">
+            <svg width="38" height="38" viewBox="0 0 24 24">
+              <use xlink:href="#arrow-cycle"></use>
+            </svg>
+            <h4 class="element-title text-capitalize my-3">30-Day Free Returns</h4>
+            <p>Not in love with it? Return any item within 30 days, no questions asked.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="categories overflow-hidden">
+    <div class="container">
+      <div class="open-up" data-aos="zoom-out">
+        {% if categories %}
+        <div class="row g-0">
+          {% for cat in categories|slice:":3" %}
+          <div class="col-md-4">
+            <div class="cat-item image-zoom-effect" style="overflow:hidden;position:relative;">
+              <div class="image-holder" style="height:520px;overflow:hidden;">
+                <a href="{% url 'category' cat.slug %}" style="display:block;height:100%;">
+                  {% if cat.image %}
+                  <img src="{{ cat.image.url }}" alt="{{ cat.name }}"
+                    style="width:100%;height:100%;object-fit:cover;display:block;">
+                  {% else %}
+                  <img src="{% static 'images/cat-item1.jpg' %}" alt="{{ cat.name }}"
+                    style="width:100%;height:100%;object-fit:cover;display:block;">
+                  {% endif %}
+                </a>
+              </div>
+              <div class="category-content">
+                <div class="product-button">
+                  <a href="{% url 'category' cat.slug %}" class="btn btn-common text-uppercase">Shop {{ cat.name }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="row g-0">
+          <div class="col-md-4">
+            <div class="cat-item image-zoom-effect" style="overflow:hidden;position:relative;">
+              <div class="image-holder" style="height:520px;overflow:hidden;">
+                <a href="{% url 'shop' %}" style="display:block;height:100%;">
+                  <img src="{% static 'images/cat-item1.jpg' %}" alt="men"
+                    style="width:100%;height:100%;object-fit:cover;display:block;">
+                </a>
+              </div>
+              <div class="category-content">
+                <div class="product-button"><a href="{% url 'shop' %}" class="btn btn-common text-uppercase">Shop for Men</a></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="cat-item image-zoom-effect" style="overflow:hidden;position:relative;">
+              <div class="image-holder" style="height:520px;overflow:hidden;">
+                <a href="{% url 'shop' %}" style="display:block;height:100%;">
+                  <img src="{% static 'images/cat-item2.jpg' %}" alt="women"
+                    style="width:100%;height:100%;object-fit:cover;display:block;">
+                </a>
+              </div>
+              <div class="category-content">
+                <div class="product-button"><a href="{% url 'shop' %}" class="btn btn-common text-uppercase">Shop for Women</a></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="cat-item image-zoom-effect" style="overflow:hidden;position:relative;">
+              <div class="image-holder" style="height:520px;overflow:hidden;">
+                <a href="{% url 'shop' %}" style="display:block;height:100%;">
+                  <img src="{% static 'images/cat-item3.jpg' %}" alt="accessories"
+                    style="width:100%;height:100%;object-fit:cover;display:block;">
+                </a>
+              </div>
+              <div class="category-content">
+                <div class="product-button"><a href="{% url 'shop' %}" class="btn btn-common text-uppercase">Shop Accessories</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Dynamic Products from DB -->
+  {% if products %}
+  <section class="py-5">
+    <div class="container">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 mb-4">
+        <h4 class="text-uppercase mb-0">Our New Arrivals</h4>
+        <a href="{% url 'shop' %}" class="btn-link text-uppercase" style="font-size:0.78rem;letter-spacing:0.08em;">View All Products</a>
+      </div>
+      <div class="row row-cols-2 row-cols-md-4 g-4">
+        {% for product in products %}
+        <div class="col">
+          <div class="product-item image-zoom-effect link-effect">
+            <div class="image-holder position-relative">
+              <a href="{% url 'product_detail' product.slug %}">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image img-fluid" style="height:300px;object-fit:cover;width:100%;">
+                {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height:300px;">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="opacity-25"><use xlink:href="#shopping-bag"></use></svg>
+                </div>
+                {% endif %}
+              </a>
+              <a href="#" class="btn-icon btn-wishlist">
+                <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#heart"></use></svg>
+              </a>
+              <div class="product-content">
+                <p class="text-muted text-uppercase mb-0" style="font-size:0.68rem;">{{ product.category.name }}</p>
+                <h5 class="element-title text-uppercase fs-6 mt-1">
+                  <a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a>
+                </h5>
+                <a href="{% url 'product_detail' product.slug %}" class="text-decoration-none" data-after="View Product">
+                  <span>₹{{ product.price }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="collection bg-light position-relative py-5">
+    <div class="container">
+      <div class="row">
+        <div class="title-xlarge text-uppercase txt-fx domino">Collection</div>
+        <div class="collection-item d-flex flex-wrap my-5">
+          <div class="col-md-6 column-container">
+            <div class="image-holder">
+              <img src="{% static 'images/single-image-2.jpg' %}" alt="collection" class="product-image img-fluid">
+            </div>
+          </div>
+          <div class="col-md-6 column-container bg-white">
+            <div class="collection-content p-5 m-0 m-md-5">
+              <h3 class="element-title text-uppercase">The Signature Collection</h3>
+              <p>Our signature line brings together the finest fabrics and clean, considered design. Each piece is
+                built around the idea that great clothing should feel as good as it looks — whether you're stepping
+                into the office or out for the evening. Timeless cuts, neutral palettes, and effortless versatility
+                make this our most-loved collection yet.</p>
+              <a href="{% url 'shop' %}" class="btn btn-dark text-uppercase mt-3">Shop Collection</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if best_sellers %}
+  <section id="best-sellers" class="best-sellers py-5">
+    <div class="container">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 mb-4">
+        <h4 class="text-uppercase">Best Selling Items</h4>
+        <a href="{% url 'shop' %}" class="btn-link">View All Products</a>
+      </div>
+      <div class="row row-cols-2 row-cols-md-4 g-4">
+        {% for product in best_sellers %}
+        <div class="col">
+          <div class="product-item image-zoom-effect link-effect">
+            <div class="image-holder position-relative">
+              <a href="{% url 'product_detail' product.slug %}">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image img-fluid" style="height:300px;object-fit:cover;width:100%;">
+                {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height:300px;">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="opacity-25"><use xlink:href="#shopping-bag"></use></svg>
+                </div>
+                {% endif %}
+              </a>
+              <div class="product-content">
+                <p class="text-muted text-uppercase mb-0" style="font-size:0.68rem;">{{ product.category.name }}</p>
+                <h5 class="element-title text-uppercase fs-6 mt-1">
+                  <a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a>
+                </h5>
+                <a href="{% url 'product_detail' product.slug %}" class="text-decoration-none" data-after="View Product">
+                  <span>₹{{ product.price }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="video py-5 overflow-hidden">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="video-content open-up" data-aos="zoom-out">
+          <div class="video-bg">
+            <img src="{% static 'images/video-image.jpg' %}" alt="video" class="video-image img-fluid">
+          </div>
+          <div class="video-player">
+            <a class="youtube" href="https://www.youtube.com/embed/pjtsGzQjFM4">
+              <svg width="24" height="24" viewBox="0 0 24 24">
+                <use xlink:href="#play"></use>
+              </svg>
+              <img src="{% static 'images/text-pattern.png' %}" alt="pattern" class="text-rotate">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class=”py-5 bg-light”>
+    <div class=”container”>
+      <div class=”text-center mb-5 pt-3”>
+        <p class=”text-uppercase text-muted mb-2” style=”font-size:0.72rem;letter-spacing:0.18em;”>Testimonials</p>
+        <h3 class=”text-uppercase” style=”font-family:'Marcellus',serif;font-size:1.8rem;”>What Our Customers Say</h3>
+      </div>
+
+      <div id=”testimonialCarousel” class=”carousel slide” data-bs-ride=”carousel” data-bs-interval=”5000”>
+        <div class=”carousel-inner”>
+
+          <div class=”carousel-item active”>
+            <div class=”row justify-content-center”>
+              <div class=”col-md-7 text-center px-4”>
+                <div class=”mb-4” style=”color:#c9a96e;font-size:1.4rem;”>&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class=”mb-4” style=”font-size:1.05rem;line-height:1.9;font-style:italic;color:#333;”>
+                  “The quality is absolutely incredible — every piece feels luxurious and fits perfectly.
+                  Kaira has completely transformed my wardrobe.”
+                </p>
+                <p class=”text-uppercase fw-semibold mb-0” style=”font-size:0.75rem;letter-spacing:0.15em;”>Sophia R.</p>
+                <p class=”text-muted” style=”font-size:0.7rem;”>Verified Customer</p>
+              </div>
+            </div>
+          </div>
+
+          <div class=”carousel-item”>
+            <div class=”row justify-content-center”>
+              <div class=”col-md-7 text-center px-4”>
+                <div class=”mb-4” style=”color:#c9a96e;font-size:1.4rem;”>&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class=”mb-4” style=”font-size:1.05rem;line-height:1.9;font-style:italic;color:#333;”>
+                  “Fast shipping, gorgeous packaging, and the coat I ordered looks even better in person.
+                  I've already placed my second order!”
+                </p>
+                <p class=”text-uppercase fw-semibold mb-0” style=”font-size:0.75rem;letter-spacing:0.15em;”>James T.</p>
+                <p class=”text-muted” style=”font-size:0.7rem;”>Verified Customer</p>
+              </div>
+            </div>
+          </div>
+
+          <div class=”carousel-item”>
+            <div class=”row justify-content-center”>
+              <div class=”col-md-7 text-center px-4”>
+                <div class=”mb-4” style=”color:#c9a96e;font-size:1.4rem;”>&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class=”mb-4” style=”font-size:1.05rem;line-height:1.9;font-style:italic;color:#333;”>
+                  “I love that every item is ethically made. Knowing I'm supporting responsible fashion
+                  makes wearing Kaira feel even better.”
+                </p>
+                <p class=”text-uppercase fw-semibold mb-0” style=”font-size:0.75rem;letter-spacing:0.15em;”>Priya M.</p>
+                <p class=”text-muted” style=”font-size:0.7rem;”>Verified Customer</p>
+              </div>
+            </div>
+          </div>
+
+          <div class=”carousel-item”>
+            <div class=”row justify-content-center”>
+              <div class=”col-md-7 text-center px-4”>
+                <div class=”mb-4” style=”color:#c9a96e;font-size:1.4rem;”>&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class=”mb-4” style=”font-size:1.05rem;line-height:1.9;font-style:italic;color:#333;”>
+                  “The return process was effortless and the support team was incredibly helpful.
+                  I'm a customer for life — truly outstanding service.”
+                </p>
+                <p class=”text-uppercase fw-semibold mb-0” style=”font-size:0.75rem;letter-spacing:0.15em;”>Lucas K.</p>
+                <p class=”text-muted” style=”font-size:0.7rem;”>Verified Customer</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Prev / Next controls -->
+        <button class=”carousel-control-prev” type=”button” data-bs-target=”#testimonialCarousel” data-bs-slide=”prev”
+          style=”width:40px;left:-10px;”>
+          <span style=”background:#111;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;”>
+            <svg width=”16” height=”16” viewBox=”0 0 24 24” fill=”white”><use xlink:href=”#arrow-left”></use></svg>
+          </span>
+        </button>
+        <button class=”carousel-control-next” type=”button” data-bs-target=”#testimonialCarousel” data-bs-slide=”next”
+          style=”width:40px;right:-10px;”>
+          <span style=”background:#111;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;”>
+            <svg width=”16” height=”16” viewBox=”0 0 24 24” fill=”white”><use xlink:href=”#arrow-right”></use></svg>
+          </span>
+        </button>
+
+        <!-- Dot indicators -->
+        <div class=”carousel-indicators” style=”position:relative;margin-top:2rem;bottom:0;”>
+          <button type=”button” data-bs-target=”#testimonialCarousel” data-bs-slide-to=”0” class=”active”
+            style=”background:#111;width:8px;height:8px;border-radius:50%;border:none;”></button>
+          <button type=”button” data-bs-target=”#testimonialCarousel” data-bs-slide-to=”1”
+            style=”background:#aaa;width:8px;height:8px;border-radius:50%;border:none;”></button>
+          <button type=”button” data-bs-target=”#testimonialCarousel” data-bs-slide-to=”2”
+            style=”background:#aaa;width:8px;height:8px;border-radius:50%;border:none;”></button>
+          <button type=”button” data-bs-target=”#testimonialCarousel” data-bs-slide-to=”3”
+            style=”background:#aaa;width:8px;height:8px;border-radius:50%;border:none;”></button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section class="blog py-5">
+    <div class="container">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
+        <h4 class="text-uppercase">Read Blog Posts</h4>
+        <a href="{% url 'home' %}" class="btn-link">View All</a>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <article class="post-item">
+            <div class="post-image">
+              <a href="{% url 'home' %}">
+                <img src="{% static 'images/post-image1.jpg' %}" alt="image" class="post-grid-image img-fluid">
+              </a>
+            </div>
+            <div class="post-content d-flex flex-wrap gap-2 my-3">
+              <div class="post-meta text-uppercase fs-6 text-secondary">
+                <span class="post-category">Style Guide /</span>
+                <span class="meta-day"> Jun 5, 2026</span>
+              </div>
+              <h5 class="post-title text-uppercase">
+                <a href="{% url 'about' %}">How to Build a Capsule Wardrobe</a>
+              </h5>
+              <p>Ten versatile pieces that work together seamlessly — the foundation of a wardrobe that never feels cluttered.</p>
+            </div>
+          </article>
+        </div>
+        <div class="col-md-4">
+          <article class="post-item">
+            <div class="post-image">
+              <a href="{% url 'home' %}">
+                <img src="{% static 'images/post-image2.jpg' %}" alt="image" class="post-grid-image img-fluid">
+              </a>
+            </div>
+            <div class="post-content d-flex flex-wrap gap-2 my-3">
+              <div class="post-meta text-uppercase fs-6 text-secondary">
+                <span class="post-category">Trends /</span>
+                <span class="meta-day"> Jun 10, 2026</span>
+              </div>
+              <h5 class="post-title text-uppercase">
+                <a href="{% url 'about' %}">Top Fashion Trends This Season</a>
+              </h5>
+              <p>From relaxed tailoring to bold earth tones — here are the looks defining this season's runways.</p>
+            </div>
+          </article>
+        </div>
+        <div class="col-md-4">
+          <article class="post-item">
+            <div class="post-image">
+              <a href="{% url 'home' %}">
+                <img src="{% static 'images/post-image3.jpg' %}" alt="image" class="post-grid-image img-fluid">
+              </a>
+            </div>
+            <div class="post-content d-flex flex-wrap gap-2 my-3">
+              <div class="post-meta text-uppercase fs-6 text-secondary">
+                <span class="post-category">Lifestyle /</span>
+                <span class="meta-day"> Jun 14, 2026</span>
+              </div>
+              <h5 class="post-title text-uppercase">
+                <a href="{% url 'about' %}">Dressing Well on Any Budget</a>
+              </h5>
+              <p>Style is never about spending more — it's about choosing better. Our guide to smart, lasting fashion.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="logo-bar py-5 my-5">
+    <div class="container">
+      <div class="row">
+        <div class="logo-content d-flex flex-wrap justify-content-between">
+          <img src="{% static 'images/logo1.png' %}" alt="logo" class="logo-image img-fluid">
+          <img src="{% static 'images/logo2.png' %}" alt="logo" class="logo-image img-fluid">
+          <img src="{% static 'images/logo3.png' %}" alt="logo" class="logo-image img-fluid">
+          <img src="{% static 'images/logo4.png' %}" alt="logo" class="logo-image img-fluid">
+          <img src="{% static 'images/logo5.png' %}" alt="logo" class="logo-image img-fluid">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter bg-light" style="background: url({% static 'images/pattern-bg.png' %}) no-repeat;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 py-5 my-5">
+          <div class="subscribe-header text-center pb-3">
+            <h3 class="section-title text-uppercase">Join the Kaira Community</h3>
+            <p class="text-muted">Be the first to know about new arrivals, exclusive offers, and style inspiration.</p>
+          </div>
+          <form id="form" class="d-flex flex-wrap gap-2">
+            <input type="email" name="email" placeholder="Enter your email address" class="form-control form-control-lg">
+            <button class="btn btn-dark btn-lg text-uppercase w-100">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="instagram position-relative">
+    <div class="d-flex justify-content-center w-100 position-absolute bottom-0 z-1">
+      <a href="https://www.instagram.com/templatesjungle/" class="btn btn-dark px-5">Follow us on Instagram</a>
+    </div>
+    <div class="row g-0">
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item">
+          <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+            <img src="{% static 'images/insta-item1.jpg' %}" alt="instagram" class="insta-image img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item">
+          <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+            <img src="{% static 'images/insta-item2.jpg' %}" alt="instagram" class="insta-image img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item">
+          <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+            <img src="{% static 'images/insta-item3.jpg' %}" alt="instagram" class="insta-image img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item">
+          <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+            <img src="{% static 'images/insta-item4.jpg' %}" alt="instagram" class="insta-image img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item">
+          <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+            <img src="{% static 'images/insta-item5.jpg' %}" alt="instagram" class="insta-image img-fluid">
+          </a>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="insta-item">
+          <a href="https://www.instagram.com/templatesjungle/" target="_blank">
+            <img src="{% static 'images/insta-item6.jpg' %}" alt="instagram" class="insta-image img-fluid">
+          </a>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  </section>
+
+{% endblock content %}

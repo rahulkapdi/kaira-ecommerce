@@ -1,0 +1,70 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<section class="py-4 bg-light border-bottom">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-1" style="font-size:0.7rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-dark text-decoration-none text-uppercase">Home</a></li>
+        <li class="breadcrumb-item active text-uppercase">Categories</li>
+      </ol>
+    </nav>
+    <h2 class="mb-0 text-uppercase" style="font-family:'Marcellus',serif;font-size:1.8rem;">Shop by Category</h2>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    {% if categories %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      {% for cat in Category %}
+      <div class="col">
+        <a href="{% url 'category' cat.slug %}" class="text-decoration-none d-block">
+          <div class="position-relative overflow-hidden" style="height:320px;">
+            {% if cat.image %}
+            <img src="{{ cat.image.url }}" alt="{{ cat.name }}"
+              class="w-100 h-100" style="object-fit:cover;transition:transform .5s ease;">
+            {% else %}
+            <div class="bg-light w-100 h-100 d-flex align-items-center justify-content-center">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" class="opacity-25">
+                <use xlink:href="#category"></use>
+              </svg>
+            </div>
+            {% endif %}
+            <!-- Overlay -->
+            <div class="position-absolute bottom-0 start-0 end-0 p-4"
+              style="background:linear-gradient(to top,rgba(0,0,0,0.65) 0%,transparent 100%);">
+              <h4 class="text-white text-uppercase mb-1" style="font-family:'Marcellus',serif;">{{ cat.name }}</h4>
+              <p class="text-white mb-0 opacity-75" style="font-size:0.75rem;letter-spacing:0.1em;">
+                {{ cat.products.count }} product{{ cat.products.count|pluralize }}
+              </p>
+            </div>
+          </div>
+        </a>
+        {% if cat.description %}
+        <p class="text-muted mt-3 mb-0" style="font-size:0.82rem;">{{ cat.description }}</p>
+        {% endif %}
+        <a href="{% url 'category' cat.slug %}"
+          class="d-inline-block mt-2 text-uppercase text-dark fw-semibold text-decoration-none border-bottom border-dark pb-0"
+          style="font-size:0.72rem;letter-spacing:0.1em;">Shop Now &rarr;</a>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="text-center py-5 my-5">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" class="text-muted opacity-25 mb-4">
+        <use xlink:href="#category"></use>
+      </svg>
+      <h4 class="text-uppercase mb-2" style="font-family:'Marcellus',serif;">No Categories Yet</h4>
+      <p class="text-muted">Categories will appear here once added from the admin panel.</p>
+      {% if user.is_staff %}
+      <a href="{% url 'admin:myapp_category_add' %}" class="btn btn-dark rounded-0 text-uppercase px-5">Add Category</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,123 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<section class="py-4 bg-light border-bottom">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-1" style="font-size:0.7rem;">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-dark text-decoration-none text-uppercase">Home</a></li>
+        <li class="breadcrumb-item active text-uppercase">Wishlist</li>
+      </ol>
+    </nav>
+    <h2 class="mb-0 text-uppercase" style="font-family:'Marcellus',serif;font-size:1.8rem;">
+      My Wishlist
+      {% if wishlist_items %}<span class="text-muted ms-2" style="font-size:1rem;font-weight:400;">({{ wishlist_items|length }} item{{ wishlist_items|length|pluralize }})</span>{% endif %}
+    </h2>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+
+    {% if wishlist_items %}
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+      {% for item in wishlist_items %}
+      <div class="col">
+        <div class="position-relative h-100 d-flex flex-column">
+
+          <!-- Product image -->
+          <div class="position-relative overflow-hidden bg-light" style="aspect-ratio:3/4;">
+            <a href="{% url 'product_detail' item.product.slug %}">
+              {% if item.product.image %}
+              <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                class="w-100 h-100" style="object-fit:cover;transition:transform .4s ease;"
+                onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+              {% else %}
+              <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" class="opacity-20">
+                  <use xlink:href="#shopping-bag"></use>
+                </svg>
+              </div>
+              {% endif %}
+            </a>
+
+            <!-- Remove from wishlist (top-right) -->
+            <form method="post" action="{% url 'wishlist_toggle' item.product.id %}" style="position:absolute;top:10px;right:10px;">
+              <input type="hidden" name="next" value="wishlist_view">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-dark rounded-circle p-0 d-flex align-items-center justify-content-center"
+                title="Remove from wishlist" style="width:34px;height:34px;opacity:0.85;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><use xlink:href="#heart"></use></svg>
+              </button>
+            </form>
+
+            <!-- Out of stock overlay -->
+            {% if item.product.stock == 0 %}
+            <div class="position-absolute bottom-0 start-0 end-0 bg-dark bg-opacity-50 text-white text-center py-2"
+              style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;">
+              Out of Stock
+            </div>
+            {% endif %}
+          </div>
+
+          <!-- Product info -->
+          <div class="pt-3 flex-grow-1 d-flex flex-column">
+            <p class="text-muted text-uppercase mb-1" style="font-size:0.65rem;letter-spacing:0.08em;">{{ item.product.category.name }}</p>
+            <h6 class="text-uppercase mb-2 flex-grow-1" style="font-size:0.8rem;line-height:1.4;">
+              <a href="{% url 'product_detail' item.product.slug %}" class="text-dark text-decoration-none">{{ item.product.name }}</a>
+            </h6>
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="fw-semibold">₹{{ item.product.price }}</span>
+              <span class="text-muted" style="font-size:0.68rem;">Added {{ item.added_at|date:"M j" }}</span>
+            </div>
+
+            <!-- Add to Cart -->
+            {% if item.product.stock > 0 %}
+            <form method="post" action="{% url 'cart_add' item.product.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="quantity" value="1">
+              <input type="hidden" name="next" value="wishlist_view">
+              <button type="submit" class="btn btn-dark w-100 rounded-0 text-uppercase"
+                style="font-size:0.68rem;letter-spacing:0.12em;padding:0.6rem;">
+                Add to Cart
+              </button>
+            </form>
+            {% else %}
+            <button class="btn btn-outline-secondary w-100 rounded-0 text-uppercase" disabled
+              style="font-size:0.68rem;letter-spacing:0.12em;padding:0.6rem;">
+              Out of Stock
+            </button>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Continue shopping -->
+    <div class="mt-5 text-center">
+      <a href="{% url 'shop' %}" class="text-dark text-decoration-none text-uppercase"
+        style="font-size:0.75rem;letter-spacing:0.1em;border-bottom:1px solid #111;padding-bottom:2px;">
+        Continue Shopping
+      </a>
+    </div>
+
+    {% else %}
+    <!-- Empty wishlist -->
+    <div class="text-center py-5 my-5">
+      <svg width="72" height="72" viewBox="0 0 24 24" fill="currentColor" class="text-muted opacity-25 mb-4">
+        <use xlink:href="#heart"></use>
+      </svg>
+      <h4 class="text-uppercase mb-2" style="font-family:'Marcellus',serif;">Your wishlist is empty</h4>
+      <p class="text-muted mb-4">Save items you love and come back to them anytime.</p>
+      <a href="{% url 'shop' %}" class="btn btn-dark rounded-0 text-uppercase px-5 py-3"
+        style="font-size:0.78rem;letter-spacing:0.12em;">Browse Products</a>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock content %}

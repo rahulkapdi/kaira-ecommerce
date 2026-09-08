@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KAIRA Payment</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .payment-box {
+            width: 420px;
+            max-width: 90%;
+            margin: 100px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.12);
+        }
+
+        .payment-box h1 {
+            margin-bottom: 10px;
+        }
+
+        .payment-box h2 {
+            margin: 20px 0;
+        }
+
+        #rzp-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background: #111;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #rzp-button:hover {
+            background: #333;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="payment-box">
+
+    <h1>KAIRA</h1>
+
+    <p>Complete your payment</p>
+
+    <h2>₹{{ cart_total }}</h2>
+
+    <p>
+        Order #{{ order.id }}
+    </p>
+
+    <button type="button" id="rzp-button">
+        Pay Now
+    </button>
+
+    <div id="status"></div>
+
+</div>
+
+
+<!-- Razorpay Checkout -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+<script>
+
+console.log("=================================");
+console.log("PAYMENT PAGE STARTED");
+console.log("=================================");
+
+console.log("Razorpay:", typeof Razorpay);
+console.log("Key:", "{{ razorpay_key }}");
+console.log("Amount:", "{{ amount }}");
+console.log("Razorpay Order:", "{{ payment.id }}");
+console.log("Django Order:", "{{ order.id }}");
+
+
+if (typeof Razorpay === "undefined") {
+
+    console.error("RAZORPAY SCRIPT DID NOT LOAD");
+
+    document.getElementById("status").innerHTML =
+        "Razorpay failed to load. Please refresh the page.";
+
+} else {
+
+    console.log("Razorpay checkout loaded successfully");
+
+
+    var options = {
+
+        key: "{{ razorpay_key }}",
+
+        amount: {{ amount }},
+
+        currency: "INR",
+
+        name: "KAIRA",
+
+        description: "KAIRA Order #{{ order.id }}",
+
+        order_id: "{{ payment.id }}",
+
+        prefill: {
+            name: "{{ request.user.get_full_name|escapejs }}",
+            email: "{{ request.user.email|escapejs }}"
+        },
+
+        theme: {
+            color: "#111111"
+        },
+
+
+        handler: function (response) {
+
+            console.log("=================================");
+            console.log("PAYMENT SUCCESS");
+            console.log("=================================");
+
+            console.log(
+                "Payment ID:",
+                response.razorpay_payment_id
+            );
+
+            console.log(
+                "Razorpay Order ID:",
+                response.razorpay_order_id
+            );
+
+            console.log(
+                "Signature:",
+                response.razorpay_signature
+            );
+
+
+            document.getElementById("status").innerHTML =
+                "Payment successful. Verifying payment...";
+
+
+            /*
+             * Send payment information to Django
+             */
+            fetch("{% url 'payment_success' %}", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/x-www-form-urlencoded"
+                },
+
+                body: new URLSearchParams({
+
+                    razorpay_payment_id:
+                        response.razorpay_payment_id,
+
+                    razorpay_order_id:
+                        response.razorpay_order_id,
+
+                    razorpay_signature:
+                        response.razorpay_signature
+
+                })
+
+            })
+
+
+            .then(function(response) {
+
+                console.log(
+                    "Django HTTP status:",
+                    response.status
+                );
+
+                return response.text();
+
+            })
+
+
+            .then(function(text) {
+
+                console.log(
+                    "Django raw response:",
+                    text
+                );
+
+
+                var data;
+
+                try {
+
+                    data = JSON.parse(text);
+
+                } catch (error) {
+
+                    console.error(
+                        "Django did not return JSON"
+                    );
+
+                    document.getElementById("status").innerHTML =
+                        "Server error. Check Django terminal.";
+
+                    return;
+                }
+
+
+                console.log(
+                    "Django JSON:",
+                    data
+                );
+
+
+                if (data.status === "success") {
+
+                    document.getElementById("status").innerHTML =
+                        "Payment verified. Redirecting...";
+
+                    window.location.href =
+                        data.redirect_url;
+
+                } else {
+
+                    document.getElementById("status").innerHTML =
+                        "Payment verification failed.";
+
+                }
+
+            })
+
+
+            .catch(function(error) {
+
+                console.error(
+                    "FETCH ERROR:",
+                    error
+                );
+
+                document.getElementById("status").innerHTML =
+                    "Payment verification request failed.";
+
+            });
+
+        },
+
+
+        modal: {
+
+            ondismiss: function() {
+
+                console.log(
+                    "Razorpay payment window closed"
+                );
+
+            }
+
+        }
+
+    };
+
+
+    console.log("Creating Razorpay object...");
+
+
+    var rzp = new Razorpay(options);
+
+
+    console.log(
+        "Razorpay object created:",
+        rzp
+    );
+
+
+    document
+        .getElementById("rzp-button")
+        .addEventListener("click", function(event) {
+
+            event.preventDefault();
+
+            console.log("=================================");
+            console.log("PAY NOW CLICKED");
+            console.log("=================================");
+
+
+            document.getElementById("status").innerHTML =
+                "Opening Razorpay...";
+
+
+            try {
+
+                rzp.open();
+
+                console.log(
+                    "Razorpay rzp.open() executed"
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "RAZORPAY OPEN ERROR:",
+                    error
+                );
+
+                document.getElementById("status").innerHTML =
+                    "Could not open Razorpay.";
+
+            }
+
+        });
+
+}
+
+</script>
+
+</body>
+</html>
